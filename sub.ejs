@@ -11,6 +11,7 @@
         rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
 
     <script>
         tailwind.config = {
@@ -58,8 +59,78 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
+        /* بک‌گراند جدید از کد اول */
         body {
-            font-family: 'Vazirmatn', sans-serif;
+            font-family: 'Vazirmatn', sans-serif !important;
+            background: linear-gradient(135deg, #1a0033 0%, #2d004d 30%, #4a0072 60%, #ff416c 100%) !important;
+            background-size: 400% 400% !important;
+            position: relative !important;
+            overflow-x: hidden !important;
+            animation: gradient 15s ease infinite !important;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(120,119,198,0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,119,198,0.4) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradient {
+            0%, 100% { background-position: left center; }
+            50% { background-position: right center; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        /* دکمه‌های جدید از کد اول */
+        .btn-gradient-copy {
+            background: linear-gradient(135deg, #00d4ff, #0099cc) !important;
+            box-shadow: 0 8px 24px rgba(0,212,255,0.4) !important;
+            transition: all 0.3s ease !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-gradient-copy:hover {
+            background: linear-gradient(135deg, #00e6ff, #00b8e6) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 16px 32px rgba(0,212,255,0.6) !important;
+        }
+        
+        .btn-gradient-qr {
+            background: linear-gradient(135deg, #00ff88, #00cc66) !important;
+            box-shadow: 0 8px 24px rgba(0,255,136,0.4) !important;
+            font-weight: 800 !important;
+            color: #000 !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease !important;
+        }
+        
+        .btn-gradient-qr:hover {
+            background: linear-gradient(135deg, #33ffaa, #00ff88) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 16px 32px rgba(0,255,136,0.6) !important;
         }
 
         body.light {
@@ -115,6 +186,108 @@
             background: linear-gradient(to right, rgba(79, 70, 229, 0.9), rgba(109, 40, 217, 0.9));
             transform: translateY(-2px);
         }
+
+        /* QR Code Popup Modal */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-modal.active {
+            display: flex;
+        }
+
+        .qr-modal-content {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .qr-modal-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgb(239, 68, 68);
+            color: rgb(239, 68, 68);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .qr-modal-close:hover {
+            background: rgb(239, 68, 68);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        #qrCodeImage {
+            margin: 1rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 1rem;
+            display: inline-block;
+        }
+
+        /* Accordion Styles */
+        .accordion-item {
+            margin-bottom: 0.75rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .accordion-header {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+
+        .accordion-header:hover {
+            opacity: 0.9;
+            transform: translateX(-3px);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s;
+        }
+
+        .accordion-icon.rotated {
+            transform: rotate(180deg);
+        }
     </style>
 
     <% function formatBytes(bytes, decimals=2) { if (bytes===0) return '∞' ; const k=1024; const dm=decimals < 0 ? 0 :
@@ -131,7 +304,7 @@
         null; } } %>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-4 md:p-8">
+<body class="min-h-screen text-white p-4 md:p-8">
     <button id="theme-toggle" onclick="toggleTheme()">
         <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
@@ -141,6 +314,11 @@
     </button>
 
     <div class="max-w-2xl mx-auto space-y-6">
+        <!-- Title Section -->
+        <div class="glass bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl p-4 text-center border border-blue-500/50 shadow-xl fade-in">
+            <h2 class="text-xl font-bold">این لینک اختصاصی و هوشمند شماست! 🌟</h2>
+        </div>
+
         <!-- Subscription Info Section -->
         <div class="glass bg-gray-800/50 rounded-2xl p-8 text-center border border-gray-700/50 shadow-xl fade-in">
             <div class="relative">
@@ -237,18 +415,20 @@
             <!-- Status -->
             <div class="glass bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 shadow-lg fade-in">
                 <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 <%= data.enable ? 'text-green-400' : 'text-red-400' %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4" />
                     </svg>
                     <span class="text-gray-400">وضعیت</span>
                 </div>
-                <p class="text-xl font-semibold mt-2" id="status"><%= data.enable ? 'فعال' : 'غیرفعال' %></p>
+                <p class="text-xl font-semibold mt-2 <%= data.enable ? 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]' : 'text-red-500 opacity-60' %>" id="status">
+                    <%= data.enable ? 'فعال' : 'غیرفعال' %>
+                </p>
             </div>
         </div>
 
         <!-- Usage Overview -->
         <div class="glass bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 shadow-lg fade-in">
-            <h2 class="text-lg font-semibold mb-4">نمای کلی استفاده</h2>
+            <h2 class="text-lg font-semibold mb-4 text-right">نمای کلی استفاده</h2>
             <div class="w-full bg-gray-700 rounded-full h-2 mb-4">
                 <div id="usageBar"
                     class="bg-gradient-to-r from-cyan-400 to-indigo-500 h-2 rounded-full transition-all duration-500">
@@ -260,15 +440,33 @@
             </div>
         </div>
 
+        <!-- Access Description -->
+        <div class="glass bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 shadow-lg fade-in">
+            <h3 class="text-xl font-bold mb-3 text-center">🔓 دسترسی کلی</h3>
+            <p class="text-gray-300 text-center leading-relaxed">
+                در این قسمت، شما به کانفیگ های خود به طور جداگانه دسترسی دارید که به شما امکان می‌دهد هر یک از آنها را از طریق کد QR به اشتراک بگذارید یا می‌توانید به سادگی آنها را کپی کنید.
+            </p>
+        </div>
+
         <!-- Connection Details -->
         <div class="glass bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 shadow-lg fade-in">
             <div class="flex justify-between items-center cursor-pointer" onclick="toggleDropdown()">
-                <h2 class="text-lg font-semibold">جزئیات اتصال</h2>
                 <svg id="dropdownIcon" xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
+                <div class="flex items-center gap-3 flex-1 justify-center">
+                    <h2 class="text-lg font-semibold">کانفیگ های من</h2>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/gqzfzudq.json"
+                        trigger="loop"
+                        delay="2000"
+                        colors="primary:#fff,secondary:#fff"
+                        style="width:32px;height:32px">
+                    </lord-icon>
+                </div>
+                <div class="w-5"></div>
             </div>
             <div id="dropdownContent" class="mt-4 space-y-3 hidden">
                 <button onclick="copyAllConnections()"
@@ -278,71 +476,189 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
-                    کپی همه
+                    کپی کردن همه کانفیگ ما
                 </button>
                 <% const decodedFromBase64=Buffer.from(data.suburl_content, 'base64').toString('utf-8'); 
                 const linksArray=decodedFromBase64.split('\n').filter(link=> link.trim() !== '');
                 linksArray.forEach(link => { %>
-                <div class="bg-gray-900/50 rounded-lg p-3 font-mono text-sm break-all relative group connection-item">
-                    <button onclick="copyToClipboard('<%= link %>')"
-                        class="absolute right-2 top-2 p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                    </button>
+                <div class="bg-gray-900/50 rounded-lg p-3 font-mono text-sm break-all relative group connection-item flex items-center justify-between gap-2">
                     <span class="connection-text" style="display: none;"><%= (link)%></span>
-                    <span class="connection-link"><%= getConnectionTitle(link) || 'No Name' %></span>
+                    <span class="connection-link flex-1"><%= getConnectionTitle(link) || 'No Name' %></span>
+                    <div class="flex gap-2">
+                        <button onclick="copyToClipboard('<%= link %>')"
+                            class="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
+                            title="کپی">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </button>
+                        <button onclick="showQRCode('<%= link %>')"
+                            class="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
+                            title="QR Code">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <% }); %>
             </div>
         </div>
 
+        <!-- App Selection Description -->
+        <div class="glass bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 shadow-lg fade-in text-center">
+            <p class="text-gray-300">
+                با استفاده از منوهای زیر نسبت به سیستم عامل خود از اشتراک خود استفاده کنید.
+            </p>
+        </div>
+
         <!-- App Buttons -->
-        <div class="flex flex-wrap gap-4 justify-center fade-in">
-            <a href="v2rayng://install-config?url=<%= data.suburl %>" class="app-button">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18l-6-6h12l-6 6z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12" />
-                </svg>
-                باز کردن در V2rayNG
-            </a>
-            <a href="streisand://import/<%= data.suburl %>" class="app-button">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18l-6-6h12l-6 6z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12" />
-                </svg>
-                باز کردن در Streisand
-            </a>
+        <div class="fade-in space-y-3">
+            <!-- Windows Section -->
+            <div class="accordion-item" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                <div class="accordion-header" onclick="toggleAccordion('windows')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🪟</span>
+                        <span class="font-semibold">ویندوز</span>
+                    </div>
+                    <svg class="w-5 h-5 accordion-icon" id="icon-windows" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                <div class="accordion-content" id="content-windows">
+                    <div class="p-4 space-y-2">
+                        <a href="v2rayng://install-config?url=<%= data.suburl %>" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            ✓ V2rayNG
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            📦 Nekoray
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            ⚔️ Clash Verge
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS Section -->
+            <div class="accordion-item" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                <div class="accordion-header" onclick="toggleAccordion('ios')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🍎</span>
+                        <span class="font-semibold">گوشی اپل</span>
+                    </div>
+                    <svg class="w-5 h-5 accordion-icon" id="icon-ios" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                <div class="accordion-content" id="content-ios">
+                    <div class="p-4 space-y-2">
+                        <a href="streisand://import/<%= data.suburl %>" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            🌟 Streisand
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            🦊 FoXray
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            📦 V2Box
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            🚀 Shadowrocket
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            🎵 Sing-Box
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Android Section -->
+            <div class="accordion-item" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                <div class="accordion-header" onclick="toggleAccordion('android')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📱</span>
+                        <span class="font-semibold">اندروید</span>
+                    </div>
+                    <svg class="w-5 h-5 accordion-icon" id="icon-android" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                <div class="accordion-content" id="content-android">
+                    <div class="p-4 space-y-2">
+                        <a href="v2rayng://install-config?url=<%= data.suburl %>" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            ✓ V2rayNG 😊
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            🎀 NekoBox
+                        </a>
+                        <a href="#" 
+                           class="block px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-all">
+                            🎵 Sing-Box
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Description -->
+        <div class="glass bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 shadow-lg fade-in">
+            <h3 class="text-xl font-bold mb-3 text-center">💬 پشتیبانی تلگرام</h3>
+            <p class="text-gray-300 text-center leading-relaxed">
+                در صورت وجود هرگونه مشکل در اشتراک، با پشتیبانی تلگرام در ارتباط باشید.
+            </p>
         </div>
 
         <!-- Support Section -->
     <% if (data.TELEGRAM_URL || data.WHATSAPP_URL) { %>
         <div class="glass bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 shadow-lg fade-in">
-            <h2 class="text-2xl font-semibold text-center mb-6">پشتیبانی</h2>
-            <div class="grid gap-6">
-            <div class="p-4 rounded-lg bg-gray-900/30">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex flex-col items-center justify-center gap-4">
                 
-                <% if (data.WHATSAPP_URL) { %>
-                    <a href="<%= data.WHATSAPP_URL %>" class="app-button">
-                    ارتباط با پشتیبانی واتس اپ
+                <% if (data.TELEGRAM_URL) { %>
+                    <a href="<%= data.TELEGRAM_URL %>" target="_blank" 
+                       class="w-full max-w-md px-6 py-3 rounded-xl transition-all hover:scale-[1.02] text-center flex items-center justify-center gap-3 relative overflow-hidden"
+                       style="background: linear-gradient(135deg, #0088cc, #006699); box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                        </svg>
+                        <span class="font-semibold">ارتباط با پشتیبانی تلگرام</span>
                     </a>
                 <% } %>
                 
-                <% if (data.TELEGRAM_URL) { %>
-                    <a href="<%= data.TELEGRAM_URL %>" target="_blank" class="app-button">
-                    ارتباط با پشتیبانی تلگرام
+                <% if (data.WHATSAPP_URL) { %>
+                    <a href="<%= data.WHATSAPP_URL %>" 
+                       class="w-full max-w-md px-6 py-3 rounded-xl transition-all hover:scale-[1.02] text-center flex items-center justify-center gap-3"
+                       style="background: linear-gradient(135deg, #25d366, #128c7e); box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        <span class="font-semibold">ارتباط با پشتیبانی واتس اپ</span>
                     </a>
                 <% } %>
 
-                </div>
-            </div>
             </div>
         </div>
     <% } %>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="qr-modal" id="qrModal" onclick="closeQRModal(event)">
+        <div class="qr-modal-content" onclick="event.stopPropagation()">
+            <button class="qr-modal-close" onclick="closeQRModal()">✕</button>
+            <h3 class="text-xl font-bold mb-4">QR Code کانفیگ</h3>
+            <img id="qrCodeImage" alt="QR Code" />
+        </div>
     </div>
 
     <script>
@@ -412,6 +728,40 @@
             const texts = document.querySelectorAll('.connection-text');
             const allText = Array.from(texts).map(el => el.innerText.trim()).join("\n");
             copyToClipboard(allText);
+        }
+
+        function showQRCode(configLink) {
+            const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(configLink);
+            document.getElementById('qrCodeImage').src = qrUrl;
+            document.getElementById('qrModal').classList.add('active');
+        }
+
+        function closeQRModal(event) {
+            if (!event || event.target.id === 'qrModal' || event.target.classList.contains('qr-modal-close')) {
+                document.getElementById('qrModal').classList.remove('active');
+            }
+        }
+
+        function toggleAccordion(section) {
+            const content = document.getElementById('content-' + section);
+            const icon = document.getElementById('icon-' + section);
+            
+            // Close all other accordions
+            ['windows', 'ios', 'android'].forEach(s => {
+                if (s !== section) {
+                    document.getElementById('content-' + s).classList.remove('active');
+                    document.getElementById('icon-' + s).classList.remove('rotated');
+                }
+            });
+            
+            // Toggle current accordion
+            content.classList.toggle('active');
+            icon.classList.toggle('rotated');
+        }
+
+        function generateQR() {
+            const suburl = '<%= data.suburl %>';
+            window.open('https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=' + encodeURIComponent(suburl), '_blank');
         }
 
         function toggleDropdown() {
