@@ -156,6 +156,14 @@
             background-image: linear-gradient(to bottom right, #f3f4f6, #e5e7eb, #f3f4f6) !important;
         }
 
+        /* Force dark mode on load */
+        @media (prefers-color-scheme: light) {
+            body {
+                background: linear-gradient(135deg, #1a0033 0%, #2d004d 30%, #4a0072 60%, #ff416c 100%) !important;
+                color: white !important;
+            }
+        }
+
         #theme-toggle {
             position: fixed;
             top: 1rem;
@@ -288,6 +296,23 @@
         .accordion-icon.rotated {
             transform: rotate(180deg);
         }
+
+        /* Blinking neon border for configs box */
+        @keyframes neon-blink {
+            0%, 100% {
+                border-color: #00ff41;
+                box-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41;
+            }
+            50% {
+                border-color: #00cc33;
+                box-shadow: 0 0 5px #00cc33, 0 0 10px #00cc33, 0 0 15px #00cc33;
+            }
+        }
+
+        .configs-box {
+            animation: neon-blink 2s ease-in-out infinite;
+            border: 2px solid #00ff41 !important;
+        }
     </style>
 
     <% function formatBytes(bytes, decimals=2) { if (bytes===0) return '∞' ; const k=1024; const dm=decimals < 0 ? 0 :
@@ -325,7 +350,8 @@
                 <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl">
                 </div>
                 <div class="relative bg-indigo-500/10 p-4 rounded-full inline-flex">
-                    <svg class="w-10 h-10 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <img src="/logo.png" alt="Logo" class="w-10 h-10 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <svg class="w-10 h-10 text-indigo-400" style="display:none;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
@@ -399,7 +425,7 @@
                         } 
                         else {
                             %>
-                            منقضی شده
+                            <span class="text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.9)]">منقضی شده</span>
                             <%
                         }
                     } catch (error) {
@@ -449,7 +475,7 @@
         </div>
 
         <!-- Connection Details -->
-        <div class="glass bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 shadow-lg fade-in">
+        <div class="glass bg-gray-800/50 rounded-xl p-6 shadow-lg fade-in configs-box">
             <div class="flex justify-between items-center cursor-pointer" onclick="toggleDropdown()">
                 <svg id="dropdownIcon" xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24"
@@ -476,14 +502,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
-                    کپی کردن همه کانفیگ ما
+                    <span class="text-center">کپی کردن همه کانفیگ ما</span>
                 </button>
                 <% const decodedFromBase64=Buffer.from(data.suburl_content, 'base64').toString('utf-8'); 
                 const linksArray=decodedFromBase64.split('\n').filter(link=> link.trim() !== '');
                 linksArray.forEach(link => { %>
                 <div class="bg-gray-900/50 rounded-lg p-3 font-mono text-sm break-all relative group connection-item flex items-center justify-between gap-2">
                     <span class="connection-text" style="display: none;"><%= (link)%></span>
-                    <span class="connection-link flex-1"><%= getConnectionTitle(link) || 'No Name' %></span>
+                    <span class="connection-link flex-1 text-center"><%= getConnectionTitle(link) || 'No Name' %></span>
                     <div class="flex gap-2">
                         <button onclick="copyToClipboard('<%= link %>')"
                             class="p-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
@@ -517,10 +543,12 @@
         <!-- App Buttons -->
         <div class="fade-in space-y-3">
             <!-- Windows Section -->
-            <div class="accordion-item" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+            <div class="accordion-item" style="background: linear-gradient(135deg, #0078d4, #0063b1);">
                 <div class="accordion-header" onclick="toggleAccordion('windows')">
                     <div class="flex items-center gap-3">
-                        <span class="text-2xl">🪟</span>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                        </svg>
                         <span class="font-semibold">ویندوز</span>
                     </div>
                     <svg class="w-5 h-5 accordion-icon" id="icon-windows" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -546,10 +574,12 @@
             </div>
 
             <!-- iOS Section -->
-            <div class="accordion-item" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+            <div class="accordion-item" style="background: linear-gradient(135deg, #147ce5, #0c5bb3);">
                 <div class="accordion-header" onclick="toggleAccordion('ios')">
                     <div class="flex items-center gap-3">
-                        <span class="text-2xl">🍎</span>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                        </svg>
                         <span class="font-semibold">گوشی اپل</span>
                     </div>
                     <svg class="w-5 h-5 accordion-icon" id="icon-ios" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -583,10 +613,12 @@
             </div>
 
             <!-- Android Section -->
-            <div class="accordion-item" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+            <div class="accordion-item" style="background: linear-gradient(135deg, #3ddc84, #2bb656);">
                 <div class="accordion-header" onclick="toggleAccordion('android')">
                     <div class="flex items-center gap-3">
-                        <span class="text-2xl">📱</span>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.28-.54-.38-.83-.22-.3.16-.42.54-.26.85l1.84 3.18C2.92 12.06 1.11 16.37 1.11 20h21.78c0-3.63-1.81-7.94-5.29-10.52zM7.5 14c-.83 0-1.5-.67-1.5-1.5S6.67 11 7.5 11s1.5.67 1.5 1.5S8.33 14 7.5 14zm9 0c-.83 0-1.5-.67-1.5-1.5S15.67 11 16.5 11s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                        </svg>
                         <span class="font-semibold">اندروید</span>
                     </div>
                     <svg class="w-5 h-5 accordion-icon" id="icon-android" fill="none" stroke="currentColor" viewBox="0 0 24 24">
