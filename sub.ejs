@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="<%= data.DEFAULT_LANG ? 'fa' : 'en' %>" data-lang="<%= data.DEFAULT_LANG ? 'fa' : 'en' %>"
-    class="<%= data.enable ? 'rtl' : '' %>">
+<html lang="fa" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -67,6 +66,58 @@
             position: relative !important;
             overflow-x: hidden !important;
             animation: gradient 15s ease infinite !important;
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
+        /* RTL and BiDi Fixes */
+        * {
+            direction: rtl;
+        }
+
+        /* Persian text with mixed content */
+        p, span, div, h1, h2, h3, h4, h5, h6, label {
+            unicode-bidi: embed;
+            direction: rtl;
+        }
+
+        /* For text containing numbers or English within Persian */
+        .rtl-text {
+            direction: rtl;
+            unicode-bidi: embed;
+            text-align: right;
+        }
+
+        /* For purely English/Latin content */
+        .ltr-text {
+            direction: ltr;
+            unicode-bidi: embed;
+            text-align: left;
+        }
+
+        /* Mixed content - keep RTL but allow proper rendering */
+        .mixed-content {
+            direction: rtl;
+            unicode-bidi: plaintext;
+        }
+
+        /* Code and technical text */
+        code, pre, .font-mono {
+            direction: ltr;
+            unicode-bidi: embed;
+            text-align: left;
+            display: inline-block;
+        }
+
+        /* Buttons and inputs */
+        button, input, select, textarea {
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Fix for SVG icons in RTL */
+        svg {
+            display: inline-block;
         }
         
         body::before {
@@ -393,8 +444,8 @@
     <div class="max-w-2xl mx-auto space-y-6">
         <!-- Title Section -->
         <div class="glass bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl p-4 text-center border border-blue-500/50 shadow-xl fade-in">
-            <h2 class="text-2xl font-bold mb-2">این لینک اختصاصی و هوشمند شماست</h2>
-            <p class="text-red-500 text-sm font-light mb-3">این صفحه را در اختیار دیگران قرار ندهید</p>
+            <h2 class="text-2xl font-bold mb-2 rtl-text text-center">این لینک اختصاصی و هوشمند شماست</h2>
+            <p class="text-red-500 text-sm font-light mb-3 rtl-text text-center">این صفحه را در اختیار دیگران قرار ندهید</p>
             <div class="flex justify-center">
                 <span class="text-3xl blinking-warning">⚠️</span>
             </div>
@@ -413,51 +464,51 @@
                     </svg>
                 </div>
             </div>
-            <h1 class="text-3xl font-bold mt-4 mb-2">اطلاعات اشتراک</h1>
-            <p class="text-gray-400 text-sm mb-1">کد اشتراک</p>
-            <p class="text-lg font-bold" style="color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6);"><%= data.email %></p>
+            <h1 class="text-3xl font-bold mt-4 mb-2 rtl-text text-center">اطلاعات اشتراک</h1>
+            <p class="text-gray-400 text-sm mb-1 rtl-text text-center">کد اشتراک</p>
+            <p class="text-lg font-bold ltr-text" style="color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6); direction: ltr; text-align: center;"><%= data.email %></p>
         </div>
 
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <!-- Download -->
             <div class="glass bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 shadow-lg fade-in">
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-3 flex-row-reverse gap-3">
                     <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    <span class="text-gray-400">دانلود</span>
+                    <span class="text-gray-400 rtl-text">دانلود</span>
                 </div>
-                <p class="text-xl font-semibold mt-2">
+                <p class="text-xl font-semibold mt-2 mixed-content text-center">
                     <%= formatBytes(data.down) %>
                 </p>
             </div>
 
             <!-- Upload -->
             <div class="glass bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 shadow-lg fade-in">
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-3 flex-row-reverse gap-3">
                     <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
-                    <span class="text-gray-400">آپلود</span>
+                    <span class="text-gray-400 rtl-text">آپلود</span>
                 </div>
-                <p class="text-xl font-semibold mt-2">
+                <p class="text-xl font-semibold mt-2 mixed-content text-center">
                     <%= formatBytes(data.up) %>
                 </p>
             </div>
 
             <!-- Expiry Date -->
             <div class="glass bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 shadow-lg fade-in">
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-3 flex-row-reverse gap-3">
                     <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span class="text-gray-400">تاریخ انقضا</span>
+                    <span class="text-gray-400 rtl-text">تاریخ انقضا</span>
                 </div>
-                <p class="text-xl font-semibold mt-2" id="expireDate">
+                <p class="text-xl font-semibold mt-2 mixed-content text-center" id="expireDate">
                     <% 
                     try {
                         if (!data || typeof data.expiryTime === 'undefined') {
@@ -496,13 +547,13 @@
 
             <!-- Status -->
             <div class="glass bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 shadow-lg fade-in">
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-3 flex-row-reverse gap-3">
                     <svg class="w-5 h-5 <%= data.enable ? 'text-green-400' : 'text-red-400' %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4" />
                     </svg>
-                    <span class="text-gray-400">وضعیت</span>
+                    <span class="text-gray-400 rtl-text">وضعیت</span>
                 </div>
-                <p class="text-xl font-semibold mt-2 <%= data.enable ? 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]' : 'text-red-500 opacity-60' %>" id="status">
+                <p class="text-xl font-semibold mt-2 rtl-text text-center <%= data.enable ? 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]' : 'text-red-500 opacity-60' %>" id="status">
                     <%= data.enable ? 'فعال' : 'غیرفعال' %>
                 </p>
             </div>
@@ -510,15 +561,15 @@
 
         <!-- Usage Overview -->
         <div class="glass bg-gray-800/50 rounded-xl p-6 border border-gray-700/50 shadow-lg fade-in">
-            <h2 class="text-lg font-semibold mb-4 text-center">نمای کلی استفاده</h2>
+            <h2 class="text-lg font-semibold mb-4 text-center rtl-text">نمای کلی استفاده</h2>
             <div class="w-full bg-gray-700 rounded-full h-2 mb-4">
                 <div id="usageBar"
-                    class="bg-gradient-to-r from-cyan-400 to-indigo-500 h-2 rounded-full transition-all duration-500">
+                    class="bg-gradient-to-l from-cyan-500 to-indigo-500 h-2 rounded-full transition-all duration-500">
                 </div>
             </div>
-            <div class="flex justify-between text-sm">
-                <span id="usedText" style="color: #ef4444;"></span>
-                <span id="remainingText" style="color: #22c55e;"></span>
+            <div class="flex justify-between text-sm rtl-text">
+                <span id="usedText"></span>
+                <span id="remainingText"></span>
             </div>
         </div>
 
@@ -931,12 +982,12 @@
         const usedBytes = downloadByte + uploadByte;
         const remainingBytes = totalByte - usedBytes;
 
-        document.getElementById('usedText').innerHTML = 'استفاده شده: <span style="color: #ef4444; font-weight: bold;">' + formatBytes(usedBytes) + '</span>';
+        document.getElementById('usedText').innerHTML = '<span class="rtl-text">استفاده شده: </span><span style="color: #ef4444; font-weight: bold;">' + formatBytes(usedBytes) + '</span>';
         if (totalByte === 0) {
-            document.getElementById('remainingText').innerHTML = 'کل: <span style="color: #22c55e; font-weight: bold;">∞</span> | باقی مانده: <span style="color: #22c55e; font-weight: bold;">∞</span>';
+            document.getElementById('remainingText').innerHTML = '<span class="rtl-text">باقی مانده: </span><span style="color: #22c55e; font-weight: bold;">∞</span>';
             document.getElementById('usageBar').style.width = '100%';
         } else {
-            document.getElementById('remainingText').innerHTML = 'باقی مانده: <span style="color: #22c55e; font-weight: bold;">' + formatBytes(remainingBytes) + '</span>';
+            document.getElementById('remainingText').innerHTML = '<span class="rtl-text">باقی مانده: </span><span style="color: #22c55e; font-weight: bold;">' + formatBytes(remainingBytes) + '</span>';
             const usagePercentage = Math.min(100, (usedBytes / totalByte) * 100);
             document.getElementById('usageBar').style.width = usagePercentage + '%';
         }
