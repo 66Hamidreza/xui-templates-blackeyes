@@ -910,19 +910,25 @@
         }
 
         function copySubscriptionLink() {
-            // Get current page URL
             let currentUrl = window.location.href;
-            
-            // Replace port 2083 with 2096
-            let subLink = currentUrl.replace(':2083', ':2096');
-            
-            // If no port 2083 found, try to detect and replace any port
-            if (subLink === currentUrl) {
-                // Try to replace any port pattern
-                subLink = currentUrl.replace(/:\d+\//, ':2096/');
+
+            // اگر subdomain 'sub' وجود داشت، با 'hub2' جایگزین کن
+            let urlObj = new URL(currentUrl);
+            if (urlObj.hostname.startsWith('sub.')) {
+                urlObj.hostname = urlObj.hostname.replace('sub.', 'hub2.');
             }
-            
-            // Copy to clipboard
+
+            let subLink = urlObj.toString();
+
+            // جایگزینی پورت
+            if (subLink.includes(':2083')) {
+                subLink = subLink.replace(':2083', ':2096');
+            } else {
+                // هر پورتی که بود با 2096 جایگزین کن
+                subLink = subLink.replace(/:(\d+)(?=\/)/, ':2096');
+            }
+
+            // کپی به کلیپ‌بورد
             copyToClipboard(subLink);
         }
 
